@@ -31,20 +31,30 @@ Code Design
 
 Arduino (c/c++) to Raspberry Pi (python) communication through USB
 
-Arduino Robot lights up when hashtags are trending on Instagram or Twitter:
+Arduino Robot RGB lights up when hashtags are trending on Instagram or Twitter:
 
-#christmas - red and green
-#halloween - orange and purple
-#usa - red, white, blue
-#stpatricksday - green
-#hannukah - blue, white, and yellow
-#easter - pink, cyan and yellow
-#cincodemayo - Crayola, green, white, and red
-#newyear - white and blue
-#chinesenewyear - red, yellow, and white
-#thanksgiving - red, yellow, brown
-#pride - full spectrum
-((And more)) 
+- #christmas - red and green
+
+- #halloween - orange and purple
+
+- #usa - red, white, blue
+
+- #stpatricksday - green
+
+- #hannukah - blue, white, and yellow
+
+- #easter - pink, cyan and yellow
+
+- #cincodemayo - Crayola, green, white, and red
+
+- #newyear - white and blue
+
+- #chinesenewyear - red, yellow, and white
+
+- #thanksgiving - red, yellow, brown
+
+- #pride - full spectrum
+
 
 Waves hello when object is detected moving
 
