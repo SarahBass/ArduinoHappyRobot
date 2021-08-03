@@ -26,6 +26,38 @@ COMPONENTS | USAGE
 1* Mega Arduino Board and USB | Run multiple components 
 1* Complete Canakit Raspberry Pi 4 | Powersource and Linux Computer
 
+Code Design
+-------------------------------------------------------------------------------------------------------------------------------
+
+Arduino (c/c++) to Raspberry Pi (python) communication through USB
+
+Arduino Robot lights up when hashtags are trending on Instagram or Twitter:
+
+#christmas - red and green
+#halloween - orange and purple
+#usa - red, white, blue
+#stpatricksday - green
+#hannukah - blue, white, and yellow
+#easter - pink, cyan and yellow
+#cincodemayo - Crayola, green, white, and red
+#newyear - white and blue
+#chinesenewyear - red, yellow, and white
+#thanksgiving - red, yellow, brown
+#pride - full spectrum
+((And more)) 
+
+Waves hello when object is detected moving
+
+Kicks feet when object gets closer, increases feet kicking speed
+
+Tries to grab item with claws when item is closest in range
+
+Spins gears on top 
+
+
+
+
+
 
 
 
