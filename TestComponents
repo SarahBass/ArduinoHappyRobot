@@ -19,7 +19,6 @@ void setup() {
 }
 void loop() {
   val = digitalRead(pirPin);
-
 if (val == 0){
   RGB_color(255, 0, 255); // Magenta no
   delay(1000);
@@ -66,15 +65,16 @@ if (val == 0){
 }
 
 else if (val ==1 && turn > 0){
-  RGB_color(255, 0, 10); 
   myservo.write(turn);
-  delay (100);
+  delay (1000);
   turn = turn - 10;
 }
 
-else if (val ==1 && turn == 0){
-  turn = 180;
-  delay(100);}
+else if (turn == 0){
+  turn = 180;}
+  
+else {
+  RGB_color(0, 0, 0);}
 }
 
 void RGB_color(int red_light_value, int green_light_value, int blue_light_value)
