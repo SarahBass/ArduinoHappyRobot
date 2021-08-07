@@ -1,25 +1,73 @@
+/*
+                   _         _            _   
+                  | |       | |          | |  
+  _ __   __ _ _ __| |_ ___  | |_ ___  ___| |_ 
+ | '_ \ / _` | '__| __/ __| | __/ _ \/ __| __|
+ | |_) | (_| | |  | |_\__ \ | ||  __/\__ \ |_ 
+ | .__/ \__,_|_|   \__|___/  \__\___||___/\__|
+ | |                                          
+ |_|                                          
+-------------------------------------------------
+Test these components of the arduino robot:
+motion sensor (pin 2)
+servo motors range (pins 9,10,11,12,13)
+RGB LED colors full spectrum (pins 5,6,7)
+DC Motor spin (pin 23, 25, 27, 29 on Arduino MEGA)
+Ultrasonic sensor (4 and 3)
+LCD Screen (22, 26, 28, 30, 34,( and 36?))
+*/
 #include <Servo.h>
+#include <LiquidCrystal.h>
 
-Servo myservo; // create servo object to control a servo
+const int rs = 22, en = 26, d4 = 28, d5 = 30, d6 = 32, d7 = 34;
+LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 
-int red_light_pin= 5;
-int green_light_pin = 6;
-int blue_light_pin = 7;
-int pirPin = 2;
+Servo leftarmServo; // create servo object to control a servo
+Servo leftlegServo; // create servo object to control a servo
+Servo rightarmServo; // create servo object to control a servo
+Servo rightlegServo; // create servo object to control a servo
+Servo shoulderServo; // create servo object to control a servo
+
+int red_light_pin= 5; //change value based on your setting
+int green_light_pin = 6; //change value based on your setting
+int blue_light_pin = 7; //change value based on your setting
+int pirPin = 2; //change value based on your setting
+int trigPin = 3; //change value based on your setting
+int echoPin = 4; //change value based on your setting
+
 int turn = 180;
 int val = 0;
-
+long duration;
+int distanceCm, distanceInch;
+int motorPin = 25;
 
 void setup() {
   pinMode(red_light_pin, OUTPUT);
   pinMode(green_light_pin, OUTPUT);
   pinMode(blue_light_pin, OUTPUT);
   pinMode(pirPin, INPUT);
-  myservo.attach(9);
+  leftarmServo.attach(13); //change value based on your setting
+  leftlegServo.attach(12); //change value based on your setting
+  rightarmServo.attach(10); //change value based on your setting
+  rightlegServo.attach(11); //change value based on your setting
+  shoulderServo.attach(9); //change value based on your setting
+  pinMode(trigPin, OUTPUT); // Sets the trigPin as an Output
+  pinMode(echoPin, INPUT); // Sets the echoPin as an Input
+  Serial.begin(9600); // Starts the serial communication
+
+    // set up the LCD's number of columns and rows:
+  lcd.begin(16, 2);
+  // Print a message to the LCD.
+  lcd.print("hello, world!");
+  
+  pinMode(motorPin, OUTPUT);
 }
 void loop() {
   val = digitalRead(pirPin);
-if (val == 0){
+
+//Test RGB Light Colors and Motion Sensor 
+//----------------------------------------
+if (val >= 1){
   RGB_color(255, 0, 255); // Magenta no
   delay(1000);
   RGB_color(255, 0, 128); // Rose no
@@ -63,19 +111,152 @@ if (val == 0){
   RGB_color(255, 255, 255); // White
   delay(1000);
 }
-
-else if (val ==1 && turn > 0){
-  myservo.write(turn);
-  delay (1000);
-  turn = turn - 10;
-}
-
-else if (turn == 0){
-  turn = 180;}
-  
 else {
-  RGB_color(0, 0, 0);}
+  RGB_color(0, 255, 255);
 }
+
+//test servo motors
+//--------------------------
+
+leftarmServo.write(0);
+delay(500); 
+leftarmServo.write(30);
+delay(500); 
+leftarmServo.write(60);
+delay(500); 
+leftarmServo.write(90);
+delay(500); 
+leftarmServo.write(120);
+delay(500); 
+leftarmServo.write(150);
+delay(500); 
+leftarmServo.write(180);
+delay(500); 
+leftarmServo.write(0);
+delay(500); 
+
+rightarmServo.write(0);
+delay(500); 
+rightarmServo.write(30);
+delay(500); 
+rightarmServo.write(60);
+delay(500); 
+rightarmServo.write(90);
+delay(500); 
+rightarmServo.write(120);
+delay(500); 
+rightarmServo.write(150);
+delay(500); 
+rightarmServo.write(180);
+delay(500); 
+rightarmServo.write(0);
+delay(500); 
+
+leftlegServo.write(0);
+delay(500); 
+leftlegServo.write(30);
+delay(500); 
+leftlegServo.write(60);
+delay(500); 
+leftlegServo.write(90);
+delay(500); 
+leftlegServo.write(120);
+delay(500); 
+leftlegServo.write(150);
+delay(500); 
+leftlegServo.write(180);
+delay(500); 
+leftlegServo.write(0);
+delay(500); 
+
+rightlegServo.write(0);
+delay(500); 
+rightlegServo.write(30);
+delay(500); 
+rightlegServo.write(60);
+delay(500); 
+rightlegServo.write(90);
+delay(500); 
+rightlegServo.write(120);
+delay(500); 
+rightlegServo.write(150);
+delay(500); 
+rightlegServo.write(180);
+delay(500); 
+rightlegServo.write(0);
+delay(500); 
+
+
+shoulderServo.write(0);
+delay(500); 
+shoulderServo.write(30);
+delay(500); 
+shoulderServo.write(60);
+delay(500); 
+shoulderServo.write(90);
+delay(500); 
+shoulderServo.write(120);
+delay(500); 
+shoulderServo.write(150);
+delay(500); 
+shoulderServo.write(180);
+delay(500); 
+shoulderServo.write(0);
+delay(500); 
+
+
+
+// test ultrasonic sensor and LCD
+//--------------------------
+digitalWrite(trigPin, LOW);
+delayMicroseconds(2);
+digitalWrite(trigPin, HIGH);
+delayMicroseconds(10);
+digitalWrite(trigPin, LOW);
+duration = pulseIn(echoPin, HIGH);
+distanceCm= duration*0.034/2;
+distanceInch = duration*0.0133/2;
+lcd.setCursor(0,0); // Sets the location at which subsequent text written to the LCD will be displayed
+lcd.print("Distance: "); // Prints string "Distance" on the LCD
+lcd.print(distanceCm); // Prints the distance value from the sensor
+lcd.print(" cm");
+delay(1000);
+lcd.setCursor(0,1);
+lcd.print("Distance: ");
+lcd.print(distanceInch);
+lcd.print(" inch");
+delay(1000);
+
+digitalWrite(trigPin, LOW);
+delayMicroseconds(2);
+digitalWrite(trigPin, HIGH);
+delayMicroseconds(10);
+digitalWrite(trigPin, LOW);
+duration = pulseIn(echoPin, HIGH);
+distanceCm= duration*0.034/2;
+distanceInch = duration*0.0133/2;
+lcd.setCursor(0,0); // Sets the location at which subsequent text written to the LCD will be displayed
+lcd.print("Distance: "); // Prints string "Distance" on the LCD
+lcd.print(distanceCm); // Prints the distance value from the sensor
+lcd.print(" cm");
+delay(1000);
+lcd.setCursor(0,1);
+lcd.print("Distance: ");
+lcd.print(distanceInch);
+lcd.print(" inch");
+delay(1000);
+
+
+//test DC motor
+ digitalWrite(motorPin, HIGH);
+ delay(1000); 
+ digitalWrite(motorPin, LOW);
+ delay(1000);
+
+
+}
+
+
 
 void RGB_color(int red_light_value, int green_light_value, int blue_light_value)
  {
